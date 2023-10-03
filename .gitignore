@@ -6,3 +6,5 @@ UserSettings
 .vsconfig
 Assembly-CSharp.csproj
 *.sln
+obj
+.vs
