@@ -7,8 +7,7 @@ namespace XLabTest
     public class PlayerController : MonoBehaviour
     {
         public Spawner spawner;
-        public CloudController cloud;
-
+        public CloudController cloudController;
         private void Update()
         {
             if(Input.GetKeyDown(KeyCode.X))
@@ -18,7 +17,7 @@ namespace XLabTest
             }
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                cloud.Action();
+                cloudController.Action();
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {

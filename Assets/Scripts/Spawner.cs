@@ -5,30 +5,29 @@ using UnityEngine.UIElements;
 
 namespace XLabTest
 {
-        // доделать
-
     public class Spawner : MonoBehaviour
     {
         public GameObject[] prefabs;
         public void Spawn()
         {
             Debug.Log("spawning...");
+            var prefab = GetRandomPrefab();
+            if (prefab == null)
+            {
+                Debug.Log("no spawner");
+                return;
+            }
+            Instantiate(prefab, transform.position, Quaternion.identity);
+        } 
+        private GameObject GetRandomPrefab()
+        {
             if (prefabs.Length == null)
             {
                 Debug.Log("no spawner");
-                return;
+                return null;
             }
-            var index = prefabs[Random.Range(0, prefabs.Length)];
-            if (index == null)
-            {
-                Debug.Log("no spawner");
-                return;
-            }
-            Instantiate(index, transform.position, Quaternion.identity);
-        } 
-        //private GameObject GetGameObject()
-        //{
-
-        //}
+            int index = Random.Range(0, prefabs.Length);
+            return prefabs[index];
+        }
     }
 }
