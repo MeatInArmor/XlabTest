@@ -13,6 +13,7 @@ namespace XLabTest
         private int targetIndex = 0;
         public bool _moveing = false;
         private Transform target;
+
         public void Action()
         {
             Debug.Log("Z", this);

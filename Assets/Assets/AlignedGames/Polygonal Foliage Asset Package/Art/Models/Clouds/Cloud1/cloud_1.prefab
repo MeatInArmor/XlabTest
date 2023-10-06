@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8e6f7b24df38b1c4db797b100135d36e, type: 2}
+  - {fileID: 2100000, guid: d2578f398f7d7de4db3808e02b52ff0d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -98,4 +98,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targets: []
   cloud: {fileID: 0}
+  rainController: {fileID: 0}
   moveSpeed: 10
+  _moveing: 0
