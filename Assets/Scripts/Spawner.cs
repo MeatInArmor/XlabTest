@@ -21,7 +21,7 @@ namespace XLabTest
         } 
         private GameObject GetRandomPrefab()
         {
-            if (prefabs.Length == null)
+            if (prefabs.Length == 0)
             {
                 Debug.Log("no spawner");
                 return null;
