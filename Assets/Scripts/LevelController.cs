@@ -39,6 +39,6 @@ public class LevelController : MonoBehaviour
     }
     public void RefreshDelay()
     {
-        decimal
+        
     }
 }
