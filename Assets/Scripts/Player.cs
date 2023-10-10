@@ -15,8 +15,7 @@ public class Player : MonoBehaviour
         isDown = Input.GetMouseButton(0);
         Quaternion rot = stick.localRotation;
         Quaternion toRot = Quaternion.Euler(0,0, isDown ? range : -range);
-        rot = Quaternion.RotateTowards(rot, toRot, speed* Time.deltaTime);
-        stick.localRotation = rot;
+        stick.localRotation = Quaternion.RotateTowards(rot, toRot, speed* Time.deltaTime);
     }
     public void OnCollisionStick(Collider collider)
     {
@@ -24,6 +23,11 @@ public class Player : MonoBehaviour
         {
             var dir = isDown ? stick.right : -stick.right;
             stone.AddForce(dir * power * Time.deltaTime);
+
+            if(collider.TryGetComponent(out Stone other))
+            {
+                other.isAffected = true;
+            }
         }
         Debug.Log(collider, this);
     }

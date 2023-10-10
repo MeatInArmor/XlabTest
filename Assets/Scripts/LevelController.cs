@@ -7,8 +7,13 @@ public class LevelController : MonoBehaviour
 {
     public Spawner spawner;
     public bool isGameOver = false;
-    public float delay = 0.5f;
     public float spawnDeltatime;
+
+    public float MaxDelay = 2f;
+    public float Minelay = 0.5f;
+
+    public float delay = 0.5f;
+
 
     private void Start()
     {
@@ -31,5 +36,9 @@ public class LevelController : MonoBehaviour
             yield return new WaitForSeconds(delay);
             spawner.Spawn();
         } while (isGameOver);
+    }
+    public void RefreshDelay()
+    {
+        decimal
     }
 }
