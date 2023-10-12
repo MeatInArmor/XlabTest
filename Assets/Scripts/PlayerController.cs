@@ -8,6 +8,7 @@ namespace XLabTest
     {
         public Spawner spawner;
         public CloudController cloudController;
+        public List<Villager> villagers;
         private void Update()
         {
             if(Input.GetKeyDown(KeyCode.X))
@@ -22,6 +23,10 @@ namespace XLabTest
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("sp");
+                foreach(var villager in villagers)
+                {
+                    villager.ChangeTool();
+                }
             }
         }
     }

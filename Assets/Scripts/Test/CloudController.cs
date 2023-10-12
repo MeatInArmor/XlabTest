@@ -7,8 +7,7 @@ namespace XLabTest
     public class CloudController : MonoBehaviour
     {
         public Transform[] targets;
-        public Transform cloud;
-        public RainController rainController;
+        public Cloud cloud;
         public float moveSpeed = 3f;
         private int targetIndex = 0;
         public bool _moveing = false;
@@ -22,7 +21,7 @@ namespace XLabTest
                 return;
             }
             _moveing = true;
-
+            cloud.StopFX();
             targetIndex++;
             if (targetIndex >= targets.Length) 
             {
@@ -38,11 +37,17 @@ namespace XLabTest
                 return;
             }
             target = targets[targetIndex];
-            Vector3 targetPosition = new Vector3(target.position.x, cloud.position.y, target.position.z);
-            cloud.position = Vector3.Lerp(cloud.position, targetPosition, Time.deltaTime * moveSpeed);
-            if (Vector3.Distance(cloud.position, targetPosition) < 0.3f)
+            Vector3 targetPosition = new Vector3(target.position.x, cloud.transform.position.y, target.position.z);
+            Vector3 offset = (targetPosition - cloud.transform.position).normalized * moveSpeed * Time.deltaTime;
+            cloud.transform.position = Vector3.Lerp(cloud.transform.position, targetPosition, Time.deltaTime * moveSpeed);
+            if (Vector3.Distance(cloud.transform.position, targetPosition) < offset.magnitude)
             {
                 _moveing = false;
+                cloud.PlayFX();
+            }
+            else
+            {
+                cloud.transform.Translate(offset);
             }
         }
     }
