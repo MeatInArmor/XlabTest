@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        isDown = Input.GetMouseButton(0);
+        //isDown = Input.GetMouseButton(0);
         lastPosition = helper.position;
         playerAnimaror.SetBool("KeyDown", isDown);
         //Quaternion rot = stick.localRotation;
@@ -24,6 +24,12 @@ public class Player : MonoBehaviour
         //stick.localRotation = Quaternion.RotateTowards(rot, toRot, speed * Time.deltaTime);
         //Debug.Log(isDown);
     }
+
+    public void SetDown(bool value)
+    {
+        isDown = value;
+    }
+
     public void OnCollisionStick(Collider collider)
     {
         if (collider.TryGetComponent(out Rigidbody stone))
@@ -36,9 +42,11 @@ public class Player : MonoBehaviour
             if(collider.TryGetComponent(out Stone other))
             {
                 other.isAffected = true;
+                //GameEvents.OnClickHitInvoke(this);
             }
-            Debug.Log("hi");
         }
         Debug.Log(collider, this);
     }
 }
+
+

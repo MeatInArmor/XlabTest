@@ -5,7 +5,6 @@ using UnityEngine;
 public class Stone : MonoBehaviour
 {
     public bool isAffected = false;
-    public static System.Action onCollisionStone;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -13,7 +12,7 @@ public class Stone : MonoBehaviour
         {
             if(other.isAffected)
             {
-                onCollisionStone?.Invoke();
+                GameEvents.CollisionStonesInvoke(collision);
             }
 
         }

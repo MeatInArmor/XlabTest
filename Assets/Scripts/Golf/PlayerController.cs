@@ -6,14 +6,19 @@ namespace Golf
 {
     public class PlayerController : MonoBehaviour
     {
-        public XLabTest.Spawner spawner;
-        
-        private void Update()
+        [SerializeField] private Player player;
+
+        private void Start()
         {
-            if(Input.GetMouseButtonDown(0)) 
+            if(player == null) 
             {
-                Debug.Log("qwe");
+                Debug.Log("bruh");            
             }
         }
+        private void Update()
+        {
+            if (player == null)
+            player.SetDown(Input.GetMouseButtonDown(0));
+        }
     }
-}
+} 
