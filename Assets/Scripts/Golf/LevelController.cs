@@ -12,7 +12,7 @@ public class LevelController : MonoBehaviour
     public float MaxDelay = 2f;
     public float Minelay = 0.5f;
 
-    public float delay = 0.5f;
+    public float delay = 50f;
 
 
     private void Start()
@@ -23,11 +23,14 @@ public class LevelController : MonoBehaviour
 
     private void Update()
     {
-        if(spawnDeltatime + delay <= Time.time) 
-        {
-            spawner.Spawn();
-            spawnDeltatime = Time.time;
-        }
+        if (!isGameOver)    
+            if(spawnDeltatime + delay <= Time.time) 
+            {
+                //Debug.Log(Time.time);
+                //Debug.Log(spawnDeltatime + delay);
+                spawner.Spawn();
+                spawnDeltatime = Time.time;
+            }
     }
     private IEnumerator SpawnStoneProc()
     {

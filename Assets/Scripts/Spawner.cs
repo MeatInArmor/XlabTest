@@ -10,7 +10,6 @@ namespace XLabTest
         public GameObject[] prefabs;
         public void Spawn()
         {
-            Debug.Log("spawning...");
             var prefab = GetRandomPrefab();
             if (prefab == null)
             {
