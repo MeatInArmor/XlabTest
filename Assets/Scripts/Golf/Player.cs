@@ -3,49 +3,56 @@ using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace Golf
 {
-    public Animator playerAnimaror;
-    public Transform stick;
-    public Transform helper;
-    private bool isDown = false;
-      //public float range = 50f;
-      //public float speed = 300f;
-    public float power = 10f;
-    private Vector3 lastPosition;
-
-    private void Update()
+    public class Player : MonoBehaviour
     {
-        //isDown = Input.GetMouseButton(0);
-        lastPosition = helper.position;
-        playerAnimaror.SetBool("KeyDown", isDown);
-        //Quaternion rot = stick.localRotation;
-        //Quaternion toRot = Quaternion.Euler(isDown ? range : -range, 0, 0);
-        //stick.localRotation = Quaternion.RotateTowards(rot, toRot, speed * Time.deltaTime);
-        //Debug.Log(isDown);
-    }
+        public Animator playerAnimaror;
+        public Transform stick;
+        public Transform helper;
+        private bool isDown = false;
+        //public float range = 50f;
+        //public float speed = 300f;
+        public float power;
+        private Vector3 lastPosition;
 
-    public void SetDown(bool value)
-    {
-        isDown = value;
-    }
-
-    public void OnCollisionStick(Collider collider)
-    {
-        if (collider.TryGetComponent(out Rigidbody stone))
+        private void Start()
         {
-            //var dir = isDown ? stick.forward : -stick.forward;
-            var dir = (helper.position-lastPosition).normalized;
+            power = 50f;
+        }
+        private void Update()
+        {
+            //isDown = Input.GetMouseButton(0);
+            lastPosition = helper.position;
+            playerAnimaror.SetBool("KeyDown", isDown);
+            //Quaternion rot = stick.localRotation;
+            //Quaternion toRot = Quaternion.Euler(isDown ? range : -range, 0, 0);
+            //stick.localRotation = Quaternion.RotateTowards(rot, toRot, speed * Time.deltaTime);
+            //Debug.Log(isDown);
+        }
 
-            stone.AddForce(dir * power, ForceMode.Impulse);
+        public void SetDown(bool value)
+        {
+            isDown = value;
+        }
 
-            if(collider.TryGetComponent(out Stone other))
+        public void OnCollisionStick(Collider collider)
+        {
+            if (collider.TryGetComponent(out Rigidbody stone))
             {
-                other.isAffected = true;
-                //GameEvents.OnClickHitInvoke(this);
+                //var dir = isDown ? stick.forward : -stick.forward;
+                var dir = (helper.position - lastPosition).normalized;
+
+                stone.AddForce(dir * power, ForceMode.Impulse);
+
+                if (collider.TryGetComponent(out Stone other) && !other.isAffected)
+                {
+                    other.isAffected = true;
+                    //GameEvents.OnClickHitInvoke(this);
+                    GameEvents.OnStickHitInvoke();
+                }
             }
         }
-        Debug.Log(collider, this);
     }
 }
 

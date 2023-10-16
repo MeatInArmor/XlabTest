@@ -8,15 +8,15 @@ namespace XLabTest
     public class Spawner : MonoBehaviour
     {
         public GameObject[] prefabs;
-        public void Spawn()
+        public GameObject Spawn()
         {
             var prefab = GetRandomPrefab();
             if (prefab == null)
             {
                 Debug.Log("no spawner");
-                return;
+                return null;
             }
-            Instantiate(prefab, transform.position, Quaternion.identity);
+            return Instantiate(prefab, transform.position, Quaternion.identity);
         } 
         private GameObject GetRandomPrefab()
         {

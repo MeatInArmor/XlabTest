@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stone : MonoBehaviour
+namespace Golf
 {
-    public bool isAffected = false;
-
-    private void OnCollisionEnter(Collision collision)
+    public class Stone : MonoBehaviour
     {
-        if(collision.transform.TryGetComponent(out Stone other))
-        {
-            if(other.isAffected)
-            {
-                GameEvents.CollisionStonesInvoke(collision);
-            }
+        public bool isAffected = false;
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.transform.TryGetComponent(out Stone other))
+            {
+                if (!other.isAffected)
+                {
+                    GameEvents.CollisionStonesInvoke(collision);
+                }
+
+            }
         }
     }
 }

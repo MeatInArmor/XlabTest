@@ -3,77 +3,97 @@ using System.Collections.Generic;
 using UnityEngine;
 using XLabTest;
 
-public class LevelController : MonoBehaviour
+namespace Golf
 {
-    public Spawner spawner;
-    public bool isGameOver = false;
-    public float spawnDeltatime;
-
-    public float MaxDelay = 2f;
-    public float Minelay = 0.5f;
-
-    public float delay = 10f;
-    public float delayStep = 0.1f;
-
-    private void Start()
+    public class LevelController : MonoBehaviour
     {
-        //StartCoroutine(SpawnStoneProc());
-        spawnDeltatime = Time.time;
-        RefreshDelay();
-        StartCoroutine(WaitEvent());
-    }
+        public Spawner spawner;
+        //private bool isGameOver = false;
 
-    private void OnFinishWaitEvent()
-    {
-        Debug.Log("1");
-    }
+        public float MaxDelay;
+        public float Minelay;
 
-    private void OnEnable()
-    {
-        GameEvents.onCollisionStone += GameOver;
-        GameEvents.onClickHit += OnClickHit;
-    }
-    private void OnDisable()
-    {
-        GameEvents.onCollisionStone -= GameOver;
-        GameEvents.onClickHit -= OnClickHit;
-    }
-    private void GameOver()
-    {
+        public float delay;
+        public float delayStep;
+        public float spawnDeltatime;
 
-    }
-    private void OnClickHit()
-    {
+        public int score;
+        public int hightScore;
 
-    }
+        public List<GameObject> stones = new List<GameObject>(16);
+        public Player player;
 
-    private void Update()
-    {
-        if (!isGameOver)    
-            if(spawnDeltatime + delay <= Time.time) 
+        public void ClearStones()
+        {
+            foreach(var stone in stones)
             {
-                //Debug.Log(Time.time);
-                //Debug.Log(spawnDeltatime + delay);
-                spawner.Spawn();
-                spawnDeltatime = Time.time;
+                Destroy(stone);
+            }
+            stones.Clear();
+        }
+        private void Start()
+        {
+            MaxDelay = 4f;
+            Minelay = 1f;
+            delayStep = 0.05f;
+            spawnDeltatime = 0f;
+            //spawnDeltatime = Time.time;
+            //Debug.Log(MaxDelay);
+            //Debug.Log(Minelay);
+            //StartCoroutine(SpawnStoneProc());
+            RefreshDelay();
+        }
+ 
+        private void OnEnable()
+        {
+            GameEvents.onStickHit += OnStickHit;
+            score = 0;
+        }
+        private void OnDisable()
+        {
+            GameEvents.onStickHit -= OnStickHit;
+            player.SetDown(false);
+        }
+        private void OnStickHit()
+        {
+            score++;
+            hightScore = Mathf.Max(hightScore, score);
+            Debug.Log($"total score: {score};\n hight score: {hightScore}");
+        }
+
+        private void Update()
+        {
+            spawnDeltatime += Time.deltaTime;
+            // if (!isGameOver)    
+            if (spawnDeltatime >= delay)
+            {
+                var stone = spawner.Spawn();
+                stones.Add(stone);
+                //spawnDeltatime = Time.time;
                 RefreshDelay();
             }
-    }
-    //private IEnumerator SpawnStoneProc()
-    //{
-    //    do
-    //    {
-    //        yield return new WaitForSeconds(delay);
-    //        spawner.Spawn();
-    //    } while (isGameOver);
-    //}
-    public void RefreshDelay()
-    {
-        delay = UnityEngine.Random.Range(Minelay, MaxDelay);
-        MaxDelay = Mathf.Max(Minelay, MaxDelay - delayStep);
-    }
-    IEnumerator WaitEvent()
-    {
-        yield return new WaitForSeconds(delay); 
+        }
+        //private IEnumerator SpawnStoneProc()
+        //{
+        //    do
+        //    {
+        //        yield return new WaitForSeconds(delay);
+        //        spawner.Spawn();
+        //    } while (isGameOver);
+        //}
+        public void RefreshDelay()
+        {
+            spawnDeltatime = 0f;
+            delay = UnityEngine.Random.Range(Minelay, MaxDelay);
+            MaxDelay = Mathf.Max(Minelay, MaxDelay - delayStep);
+            Debug.Log(delay);
+            //if (MaxDelay > Minelay)
+            //    MaxDelay -= delayStep;
+        }
+        IEnumerator WaitEvent(System.Action callBack)
+        {
+            yield return new WaitForSeconds(delay);
+            callBack?.Invoke();
+        }
     }
 }

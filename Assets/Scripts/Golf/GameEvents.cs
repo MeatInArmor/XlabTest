@@ -2,20 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GameEvents 
+namespace Golf
 {
-    public static event System.Action onCollisionStone;
-    public static event System.Action onClickHit;
-
-
-    public static void CollisionStonesInvoke(Collision collision)
+    public static class GameEvents
     {
-        onCollisionStone?.Invoke();
-    }
-    public static void OnClickHitInvoke(Collision collision)
-    {
-        onClickHit?.Invoke();
+        public static event System.Action onCollisionStones;
+        public static event System.Action onStickHit;
+
+
+        public static void CollisionStonesInvoke(Collision collision)
+        {
+            onCollisionStones?.Invoke();
+        }
+        public static void OnStickHitInvoke()
+        {
+            onStickHit?.Invoke();
+        }
 
     }
-
 }
