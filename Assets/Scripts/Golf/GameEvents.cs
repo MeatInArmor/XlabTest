@@ -8,6 +8,8 @@ namespace Golf
     {
         public static event System.Action onCollisionStones;
         public static event System.Action onStickHit;
+        public static event System.Action onCollisionObstacles;
+
 
 
         public static void CollisionStonesInvoke(Collision collision)
@@ -18,6 +20,9 @@ namespace Golf
         {
             onStickHit?.Invoke();
         }
-
+        public static void CollisionObstaclesInvoke(Collision collis)
+        {
+            onCollisionObstacles?.Invoke();
+        }
     }
 }

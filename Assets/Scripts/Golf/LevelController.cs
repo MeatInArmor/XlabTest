@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using XLabTest;
 
@@ -22,6 +23,8 @@ namespace Golf
 
         public List<GameObject> stones = new List<GameObject>(16);
         public Player player;
+        public GameObject bonusText;
+        public TMP_Text scoreText;
 
         public void ClearStones()
         {
@@ -47,11 +50,13 @@ namespace Golf
         private void OnEnable()
         {
             GameEvents.onStickHit += OnStickHit;
+            GameEvents.onCollisionObstacles += OnCollisionObstacles;
             score = 0;
         }
         private void OnDisable()
         {
             GameEvents.onStickHit -= OnStickHit;
+            GameEvents.onCollisionObstacles -= OnCollisionObstacles;
             player.SetDown(false);
         }
         private void OnStickHit()
@@ -59,6 +64,15 @@ namespace Golf
             score++;
             hightScore = Mathf.Max(hightScore, score);
             Debug.Log($"total score: {score};\n hight score: {hightScore}");
+        }
+        private void OnCollisionObstacles()
+        {
+            score++;
+            hightScore = Mathf.Max(hightScore, score);
+            scoreText.text = $"   Score: {score}";
+            Debug.Log($"bonus point!\ntotal score: {score};\n hight score: {hightScore}");
+            bonusText.SetActive(true);
+            StartCoroutine(BonusTextOff());
         }
 
         private void Update()
@@ -94,6 +108,12 @@ namespace Golf
         {
             yield return new WaitForSeconds(delay);
             callBack?.Invoke();
+        }
+        IEnumerator BonusTextOff()
+        {
+            
+            yield return new WaitForSeconds(0.7f);
+            bonusText.SetActive(false);
         }
     }
 }
