@@ -52,6 +52,9 @@ namespace Golf
             GameEvents.onStickHit += OnStickHit;
             GameEvents.onCollisionObstacles += OnCollisionObstacles;
             score = 0;
+            MaxDelay = 4f;
+            spawnDeltatime = 0f;
+
         }
         private void OnDisable()
         {

@@ -19,10 +19,14 @@ namespace Golf
         {
             power = 50f;
         }
+        private void FixedUpdate()
+        {
+            lastPosition = helper.position;
+
+        }
         private void Update()
         {
             //isDown = Input.GetMouseButton(0);
-            lastPosition = helper.position;
             playerAnimaror.SetBool("KeyDown", isDown);
             //Quaternion rot = stick.localRotation;
             //Quaternion toRot = Quaternion.Euler(isDown ? range : -range, 0, 0);
