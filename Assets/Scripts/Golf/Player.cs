@@ -9,6 +9,7 @@ namespace Golf
         public Animator playerAnimaror;
         public Transform stick;
         public Transform helper;
+        public GameObject crusher;
         private bool isDown = false;
         //public float range = 50f;
         //public float speed = 300f;
@@ -21,13 +22,13 @@ namespace Golf
         }
         private void FixedUpdate()
         {
-            lastPosition = helper.position;
 
         }
         private void Update()
         {
             //isDown = Input.GetMouseButton(0);
             playerAnimaror.SetBool("KeyDown", isDown);
+            lastPosition = helper.position;
             //Quaternion rot = stick.localRotation;
             //Quaternion toRot = Quaternion.Euler(isDown ? range : -range, 0, 0);
             //stick.localRotation = Quaternion.RotateTowards(rot, toRot, speed * Time.deltaTime);
@@ -45,7 +46,8 @@ namespace Golf
             {
                 //var dir = isDown ? stick.forward : -stick.forward;
                 var dir = (helper.position - lastPosition).normalized;
-
+                crusher.transform.position = stone.gameObject.transform.position;
+                crusher.GetComponent<ParticleSystem>().Play();
                 stone.AddForce(dir * power, ForceMode.Impulse);
 
                 if (collider.TryGetComponent(out Stone other) && !other.isAffected)

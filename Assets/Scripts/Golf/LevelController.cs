@@ -9,7 +9,7 @@ namespace Golf
     public class LevelController : MonoBehaviour
     {
         public Spawner spawner;
-        //private bool isGameOver = false;
+        private bool newRecord;
 
         public float MaxDelay;
         public float Minelay;
@@ -24,6 +24,7 @@ namespace Golf
         public List<GameObject> stones = new List<GameObject>(16);
         public Player player;
         public GameObject bonusText;
+        public GameObject newRecordText;
         public TMP_Text scoreText;
 
         public void ClearStones()
@@ -38,13 +39,15 @@ namespace Golf
         {
             MaxDelay = 4f;
             Minelay = 1f;
-            delayStep = 0.05f;
+            delayStep = 0.1f;
             spawnDeltatime = 0f;
             //spawnDeltatime = Time.time;
             //Debug.Log(MaxDelay);
             //Debug.Log(Minelay);
             //StartCoroutine(SpawnStoneProc());
             RefreshDelay();
+            newRecord = true;
+            score = -1;
         }
  
         private void OnEnable()
@@ -61,16 +64,20 @@ namespace Golf
             GameEvents.onStickHit -= OnStickHit;
             GameEvents.onCollisionObstacles -= OnCollisionObstacles;
             player.SetDown(false);
+            newRecord = false;
+            newRecordText.SetActive(false);
         }
         private void OnStickHit()
         {
             score++;
+            OnNewRecord();
             hightScore = Mathf.Max(hightScore, score);
             Debug.Log($"total score: {score};\n hight score: {hightScore}");
         }
         private void OnCollisionObstacles()
         {
             score++;
+            OnNewRecord();
             hightScore = Mathf.Max(hightScore, score);
             scoreText.text = $"   Score: {score}";
             Debug.Log($"bonus point!\ntotal score: {score};\n hight score: {hightScore}");
@@ -78,6 +85,15 @@ namespace Golf
             StartCoroutine(BonusTextOff());
         }
 
+        private void OnNewRecord()
+        {
+            if (score >= hightScore && !newRecord)
+            {
+                newRecord = true;
+                newRecordText.SetActive(true);
+            }
+
+        }
         private void Update()
         {
             spawnDeltatime += Time.deltaTime;
